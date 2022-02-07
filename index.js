@@ -96,7 +96,7 @@ connect.then((res) => {
       }
       animate()
     }, time)
-    time += 10
+    time += 100
   // }
   })
 })
