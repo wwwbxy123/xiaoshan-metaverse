@@ -1,5 +1,6 @@
 import keyInput from './KeyInput.js'
 import connect from './Connect.js'
+import texture from './Textures.js'
 
 // console.log("hi")
 const ratio = window.innerWidth / window.innerHeight
@@ -45,20 +46,21 @@ function animate () {
 }
 animate()
 
-let textures = []
-for (let i = 1; i <= 20; i++) {
-  textures.push('resources/' + i + '.png')
-}
-textures.forEach((t) => {
-  const boxGeometry = new THREE.SphereGeometry(2, 32, 32)
-  const boxMaterial = new THREE.MeshPhongMaterial({ map: loader.load(t) })
-  const sphere = new THREE.Mesh(boxGeometry, boxMaterial)
-  let x = Math.random() * 20
-  let y = Math.random() * 20
-  let z = Math.random() * 20
-  sphere.position.set(x, y, z)
-  scene.add(sphere)
-})
+// let textures = []
+// for (let i = 1; i <= 20; i++) {
+//   textures.push('resources/' + i + '.png')
+// }
+// textures.forEach((t) => {
+//   const boxGeometry = new THREE.SphereGeometry(2, 32, 32)
+//   const boxMaterial = new THREE.MeshPhongMaterial({ map: loader.load('https://gateway.pinata.cloud/ipfs/QmXTAWNyvC3eSXVeGP7eZbfLXN2h8cKMMwVKKXtuSan2pp/1.png') })
+//   const sphere = new THREE.Mesh(boxGeometry, boxMaterial)
+//   let x = Math.random() * 20
+//   let y = Math.random() * 20
+//   let z = Math.random() * 20
+//   sphere.position.set(x, y, z)
+//   scene.add(sphere)
+// })
+
 connect.then((res) => {
   console.log('hi3')
   console.log('res: ' + res)
@@ -67,16 +69,39 @@ connect.then((res) => {
   console.log('myTokenId:' + myTokenId)
   console.log('supply:' + res.supply)
 
-//   res.buildings.forEach((b, index) => {
-//     if (index <= res.supply) {
-//       const boxGeometry = new THREE.BoxGeometry(b.w, b.h, b.d)
-//       const boxMaterial = new THREE.MeshPhongMaterial({ color: 0x00ff00 })
-//       const box = new THREE.Mesh(boxGeometry, boxMaterial)
-//       box.position.set(b.x, b.y, b.z)
-//       scene.add(box)
-//     console.log(b)
-//     }
-//   })
+  let baseUrl = 'https://gateway.pinata.cloud/ipfs/QmXTAWNyvC3eSXVeGP7eZbfLXN2h8cKMMwVKKXtuSan2pp/'
+
+  let time = 0;
+  res.myTokenId.forEach((b, index) => {
+    console.log(b)
+    let url = baseUrl + b + '.png'
+    console.log('url: ' + url)
+    setTimeout(function() {
+    // if (index <= res.supply) {
+      const geometry = new THREE.SphereGeometry(2, 32, 32)
+      const material = new THREE.MeshPhongMaterial({ map: loader.load(url) })
+      const sphere = new THREE.Mesh(geometry, material)
+      let x = Math.random() * 30 - 15
+      let y = Math.random() * 30 - 15
+      let z = Math.random() * 20
+      sphere.position.set(x, y, z)
+      scene.add(sphere)
+    }, time);
+    time += 10
+    // }
+  })
 })
+
+function sleep(ms) {
+    return new Promise((r) => setTimeout(r, ms))
+}
+
+// texture.then((uris) => {
+//   let textures = uris.uris
+//   console.log(textures)
+//   textures.forEach((uri) => {
+//     console.log('uri:' + uri)
+//   })
+// })
 
 // renderer.render(scene,camera)
