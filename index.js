@@ -101,10 +101,6 @@ connect.then((res) => {
   })
 })
 
-function sleep (ms) {
-  return new Promise((r) => setTimeout(r, ms))
-}
-
 // texture.then((uris) => {
 //   let textures = uris.uris
 //   console.log(textures)
