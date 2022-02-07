@@ -100,6 +100,9 @@ connect.then((res) => {
   // }
   })
 })
+.catch(error => {
+  document.getElementById("content").innerHTML = error;
+})
 
 // texture.then((uris) => {
 //   let textures = uris.uris
