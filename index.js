@@ -20,8 +20,8 @@ scene.add(light)
 
 const loader = new THREE.TextureLoader()
 
-const geometry = new THREE.BoxGeometry(50, 0.4, 50)
-const material = new THREE.MeshPhongMaterial({ map: loader.load('resources/index.gif') })
+const geometry = new THREE.BoxGeometry(80, 0.4, 80)
+const material = new THREE.MeshPhongMaterial({ map: loader.load('resources/map.jpg') })
 const ground = new THREE.Mesh(geometry, material)
 
 scene.add(ground)
@@ -29,10 +29,8 @@ camera.position.set(5, 15, 14)
 
 // scene.add(box)
 
-function animate () {
-  // cube.rotation.x += 0.01
-  // cube.rotation.y += 0.01
-  requestAnimationFrame(animate)
+function animate1 () {
+  requestAnimationFrame(animate1)
   if (keyInput.isPressed(38)) {
     camera.position.y += 0.05
     camera.position.x += 0.05
@@ -44,7 +42,7 @@ function animate () {
   camera.lookAt(ground.position)
   renderer.render(scene, camera)
 }
-animate()
+animate1()
 
 // let textures = []
 // for (let i = 1; i <= 20; i++) {
@@ -71,29 +69,40 @@ connect.then((res) => {
 
   let baseUrl = 'https://gateway.pinata.cloud/ipfs/QmXTAWNyvC3eSXVeGP7eZbfLXN2h8cKMMwVKKXtuSan2pp/'
 
-  let time = 0;
+  let time = 0
   res.myTokenId.forEach((b, index) => {
     console.log(b)
     let url = baseUrl + b + '.png'
     console.log('url: ' + url)
-    setTimeout(function() {
-    // if (index <= res.supply) {
+    setTimeout(function () {
+      // if (index <= res.supply) {
       const geometry = new THREE.SphereGeometry(2, 32, 32)
       const material = new THREE.MeshPhongMaterial({ map: loader.load(url) })
       const sphere = new THREE.Mesh(geometry, material)
       let x = Math.random() * 30 - 15
-      let y = Math.random() * 30 - 15
-      let z = Math.random() * 20
+      let y = Math.random() * 20
+      let z = Math.random() * 30 - 15
       sphere.position.set(x, y, z)
       scene.add(sphere)
-    }, time);
+      
+      let speed = (Math.random() - 0.5) * 0.04
+      function animate () {
+        sphere.rotation.x += speed
+        sphere.rotation.y += speed
+        requestAnimationFrame(animate)
+
+        camera.lookAt(ground.position)
+        renderer.render(scene, camera)
+      }
+      animate()
+    }, time)
     time += 10
-    // }
+  // }
   })
 })
 
-function sleep(ms) {
-    return new Promise((r) => setTimeout(r, ms))
+function sleep (ms) {
+  return new Promise((r) => setTimeout(r, ms))
 }
 
 // texture.then((uris) => {
