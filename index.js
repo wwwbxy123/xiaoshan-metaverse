@@ -102,6 +102,7 @@ connect.then((res) => {
 })
 .catch(error => {
   document.getElementById("content").innerHTML = error;
+  document.getElementById("content").innerHTML = "";
 })
 
 // texture.then((uris) => {
